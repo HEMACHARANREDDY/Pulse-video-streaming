@@ -1,60 +1,88 @@
-Developer: KARREPU HEMA CHARAN REDDY Project Name: Multi-Tenant Video Streaming & AI Sensitivity Platform
+Project Architecture and System Design
+Developer: KARREPU HEMA CHARAN REDDY Project Name: Secure Multi-Tenant Video Streaming & AI Analysis Platform
 
-1. System Architecture
-The application is built using the MERN stack (MongoDB, Express, React, Node.js) with an event-driven layer for real-time processing.
+1. System Architecture Overview
+The application follows a full-stack MERN architecture with a strict separation between frontend and backend components to ensure modularity and scalability.
 
-Frontend Layer: Built with React.js, it handles user interactions, video playback, and maintains a WebSocket connection for live status updates.
+2. Backend Components (Node.js/Express)
+2.1 Server Core (server.js)
+Entry Point: Acts as the main entry point for the entire application.
 
-Backend Layer: Powered by Node.js and Express, it manages JWT-based security, role-based access control, and the video streaming engine.
+Application Setup: Handles Express application configuration and HTTP server initialization with Socket.io.
 
-Database Layer: MongoDB Atlas stores persistent data including user profiles, hashed credentials, and video metadata.
+Connectivity: Manages the MongoDB connection and registers all API routes and global middleware.
 
-Real-time Layer: Socket.io facilitates bi-directional communication to push processing results from the server to the client instantly.
+2.2 Routes
+authRoutes.js: Manages all authentication endpoints including registration and login.
 
-2. API Specification
-Base URL: http://localhost:5000/api
+videoRoutes.js: Handles video management endpoints such as upload, stream, and like.
 
-Authentication
-POST /auth/register: Creates a new user account with designated roles (Viewer, Editor, or Admin).
+userRoutes.js: Dedicated endpoints for user management and role assignment.
 
-POST /auth/login: Validates credentials and returns a JWT token for session management.
+2.3 Controllers
+authController.js: Contains business logic for user registration, login, and fetching current user data.
 
-POST /auth/google: Authenticates users via Google OAuth 2.0 integration.
+videoController.js: Manages core video logic including upload, library listing, streaming, and deletion.
 
-Video Management
-POST /videos/upload: Secure endpoint for uploading video files; restricted to Admin and Editor roles.
+2.4 Models (Mongoose)
+User.js: Defines the user schema including username, email, hashed password, and roles.
 
-GET /videos: Retrieves a list of all videos and their current sensitivity status.
+Video.js: Manages video metadata, file paths, processing status, and sensitivity results.
 
-GET /videos/stream/:filename: Provides chunked video delivery using HTTP 206 Partial Content.
+2.5 Middleware
+auth.js: Implements JWT token verification and Role-Based Access Control (RBAC).
 
-PUT /videos/like/:id: Toggles a like for a specific video; limited to one like per unique user ID.
+upload.js: Configures Multer for file validation, size limits, and storage destination.
 
-DELETE /videos/:id: Permanently removes a video; accessible only by Administrators.
+socketAuth.js: Ensures WebSocket connections are authenticated via JWT.
 
-3. Operational Data Flow
-Video Streaming Sequence
-User Action: The user selects a video in the React frontend, triggering a metadata request.
+2.6 Services and Handlers
+videoProcessor.js: Contains logic for the video processing pipeline and simulated sensitivity analysis.
 
-Server Processing: The backend verifies the file's existence and identifies the requested byte range.
+socketHandler.js: Manages WebSocket connection lifecycles, rooms, and event emissions.
 
-Data Delivery: The server reads the file system and returns a partial content stream (HTTP 206) to the browser.
+3. Frontend Components (React.js)
+3.1 Application Core
+App.jsx: The main component defining the router configuration and global providers.
 
-Sensitivity Analysis Pipeline
-Upload: When a video is uploaded, its initial status is set to "processing".
+Context Providers: Includes AuthContext for state management and SocketContext for real-time connection handling.
 
-Analysis: A background process simulates an AI scan for 5 seconds to determine content safety.
+3.2 Pages and UI
+Auth Pages: Login.jsx and Register.jsx for secure user access.
 
-Broadcast: Upon completion, the server updates the database and emits a 'videoStatusUpdate' event via Socket.io.
+Dashboard/Library: Home.jsx (VideoLibrary) for viewing, searching, and filtering content.
 
-UI Update: The frontend receives the event and updates the video's safety badge to "safe" or "flagged" immediately.
+Management: UploadVideo.jsx for adding content and VideoPlayer.jsx for high-performance playback.
 
 4. Security Architecture (RBAC)
-The system utilizes Role-Based Access Control to manage permissions and ensure data security.
+The system utilizes a multi-layered security approach to protect data and resources.
 
-Viewer: Can watch, search, and like videos.
+Authentication: Uses JWT-based authentication with tokens stored in localStorage and passed via Authorization headers.
 
-Editor: Can upload new content and manage processing tasks.
+Authorization: Implements Role-Based Access Control (RBAC) with three distinct roles: viewer, editor, and admin.
 
-Admin: Possesses full system authority, including content moderation and permanent deletion of videos.
+Tenant Isolation: Data segregation is maintained at the database level using Tenant IDs in both User and Video models.
 
+File Security: Enforces file type validation, size limits, and access control on stored media.
+
+5. Data Flow and Real-Time Communication
+5.1 Video Processing Flow
+Upload: User selects a file; the backend Multer middleware stores it and creates a "processing" record.
+
+Analysis: A 5-second simulated AI process evaluates content for safety.
+
+Notification: Upon completion, the server emits a 'videoStatusUpdate' event via Socket.io.
+
+Update: The React frontend receives the update and refreshes the video status badge instantly.
+
+5.2 Video Streaming Flow
+Request: Frontend requests a video; backend fetches metadata from MongoDB.
+
+Stream: Backend utilizes HTTP 206 Partial Content to stream the file from the local file system in chunks.
+
+6. Design Patterns and Scalability
+MVC Pattern: Clear separation of Mongoose Models, React Views, and Express Controllers.
+
+Middleware/Service Patterns: Decouples business logic from request handling.
+
+Limitations: Current system uses local file storage and simulated processing; future versions will integrate Cloud Storage (S3) and a Load Balancer for global scalability.
