@@ -1,4 +1,4 @@
-# 📡 StreamOS API Documentation
+#  StreamOS API Documentation
 
 [cite_start]**Project Name:** Video Upload, Sensitivity Processing, and Streaming Application [cite: 1]  
 **Base URL:** `http://localhost:5000/api`  
