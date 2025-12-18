@@ -1,18 +1,18 @@
 #  StreamOS API Documentation
 
-[cite_start]**Project Name:** Video Upload, Sensitivity Processing, and Streaming Application [cite: 1]  
+**Project Name:** Video Upload, Sensitivity Processing, and Streaming Application 
 **Base URL:** `http://localhost:5000/api`  
 **Developer:** KARREPU HEMA CHARAN REDDY
 
 ---
 
 ##  1. Authentication Module
-[cite_start]Endpoints for managing user access and multi-tenant security[cite: 84].
+Endpoints for managing user access and multi-tenant security.
 
 ### **Register Account**
 * **Endpoint:** `POST /auth/register`
 * **Description:** Creates a new user with a specific role.
-* [cite_start]**Roles:** `viewer`, `editor`, `admin` .
+* **Roles:** `viewer`, `editor`, `admin` .
 * **Payload:**
     ```json
     {
@@ -31,17 +31,17 @@
 ---
 
 ##  2. Video Management Module
-[cite_start]Core logic for handling media uploads, storage, and retrieval[cite: 7].
+Core logic for handling media uploads, storage, and retrieval.
 
 ### **Get Video Library**
 * **Endpoint:** `GET /videos`
-* [cite_start]**Description:** Returns a list of all videos with their current processing status[cite: 19].
+* **Description:** Returns a list of all videos with their current processing status.
 
 ### **Upload Video**
 * **Endpoint:** `POST /videos/upload`
-* [cite_start]**Access:** **Admin / Editor Only** [cite: 34-35].
+* **Access:** **Admin / Editor Only**.
 * **Content-Type:** `multipart/form-data`
-* [cite_start]**Logic:** Triggers the **Sensitivity Analysis Pipeline**[cite: 36, 39].
+* **Logic:** Triggers the **Sensitivity Analysis Pipeline**.
 
 ### **Interactive Likes**
 * **Endpoint:** `PUT /videos/like/:id`
@@ -54,16 +54,16 @@ Advanced technical implementation for playback and live updates.
 
 ### **Video Streaming (Range Requests)**
 * **Endpoint:** `GET /videos/stream/:filename`
-* [cite_start]**Description:** Implements **HTTP Range Requests** for Netflix-style chunked streaming[cite: 11, 20].
+* **Description:** Implements **HTTP Range Requests** for Netflix-style chunked streaming.
 * **Response Code:** `206 Partial Content`.
 
 ### **WebSocket Events (Socket.io)**
-[cite_start]The system uses Socket.io to push real-time status updates[cite: 10, 22].
+The system uses Socket.io to push real-time status updates.
 
 
 
 * **Event:** `videoStatusUpdate`
-* [cite_start]**Description:** Emitted when the simulated AI finishes checking content for sensitivity[cite: 40, 61].
+* **Description:** Emitted when the simulated AI finishes checking content for sensitivity.
 * **Payload Example:**
     ```json
     {
@@ -75,19 +75,19 @@ Advanced technical implementation for playback and live updates.
 ---
 
 ##  4. Security & Roles (RBAC)
-[cite_start]The API enforces user isolation and role-based permissions [cite: 30-31].
+The API enforces user isolation and role-based permissions .
 
 | Role | Permissions |
 | :--- | :--- |
-| **Viewer** | [cite_start]Read-only access to videos[cite: 33]. |
-| **Editor** | [cite_start]Can upload and manage content[cite: 34]. |
-| **Admin** | [cite_start]Full system access, including deletion of records[cite: 35]. |
+| **Viewer** | Read-only access to videos. |
+| **Editor** | Can upload and manage content. |
+| **Admin** | Full system access, including deletion of records. |
 
 ---
 
 ##  5. Response Status Codes
 * `200 OK`: Request successful.
-* [cite_start]`201 Created`: Resource (Video/User) successfully created[cite: 113].
-* [cite_start]`206 Partial Content`: Video chunk delivered successfully[cite: 116].
-* [cite_start]`401 Unauthorized`: Valid authentication token missing[cite: 24].
-* [cite_start]`403 Forbidden`: User role does not have permission for this action[cite: 31].
+* `201 Created`: Resource (Video/User) successfully created.
+* `206 Partial Content`: Video chunk delivered successfully.
+* `401 Unauthorized`: Valid authentication token missing.
+* `403 Forbidden`: User role does not have permission for this action.
