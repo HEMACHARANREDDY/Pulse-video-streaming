@@ -1,0 +1,162 @@
+/* AI / Tech Theme Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  /* Deep Black Background with Digital Grid */
+  background-color: #050505;
+  background-image: 
+    linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px; /* Grid Size */
+  font-family: 'Roboto Mono', monospace; /* Tech text */
+  color: #00f3ff; /* Neon Cyan Text */
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* The "Holographic" Card */
+.auth-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.auth-card {
+  background: rgba(10, 10, 20, 0.85); /* Dark Glass */
+  padding: 3rem;
+  width: 100%;
+  max-width: 450px;
+  
+  /* Glowing Neon Border */
+  border: 1px solid #00f3ff;
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.15), inset 0 0 20px rgba(0, 243, 255, 0.05);
+  
+  /* Tech Corners (Clip Path) */
+  clip-path: polygon(
+    0 0, 
+    100% 0, 
+    100% 85%, 
+    90% 100%, 
+    0 100%
+  );
+  
+  text-align: center;
+  position: relative;
+}
+
+/* "Scanning" Line Animation */
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #00f3ff;
+  animation: scan 3s linear infinite;
+  opacity: 0.5;
+}
+
+@keyframes scan {
+  0% { top: 0%; opacity: 0; }
+  50% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* Typography */
+h2 {
+  font-family: 'Orbitron', sans-serif; /* Sci-Fi Header */
+  color: #fff;
+  font-size: 2rem;
+  letter-spacing: 2px;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px #00f3ff;
+}
+
+.subtitle {
+  color: #00f3ff;
+  font-size: 0.8rem;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+  letter-spacing: 1px;
+}
+
+/* Inputs */
+.form-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+label {
+  display: block;
+  font-size: 0.75rem;
+  color: #00f3ff;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+input, select {
+  width: 100%;
+  padding: 14px;
+  background-color: rgba(0, 243, 255, 0.05);
+  border: 1px solid #333;
+  border-left: 2px solid #00f3ff; /* Tech Accent */
+  color: #fff;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  background-color: rgba(0, 243, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+  border-color: #00f3ff;
+}
+
+/* The "Activate" Button */
+.btn-primary {
+  width: 100%;
+  padding: 15px;
+  background: transparent;
+  color: #00f3ff;
+  border: 1px solid #00f3ff;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  background: #00f3ff;
+  color: #000;
+  box-shadow: 0 0 30px rgba(0, 243, 255, 0.6);
+}
+
+/* Background floating particles (Optional visual noise) */
+h1 {
+  display: none; /* Hide the top title for this cleaner look */
+}
+/* --- FIX FOR DROPDOWN MENU --- */
+select option {
+  background-color: #050505; /* Dark background for the list */
+  color: #00f3ff; /* Neon text */
+  padding: 10px;
+}
